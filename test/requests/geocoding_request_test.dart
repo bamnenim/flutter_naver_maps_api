@@ -14,11 +14,11 @@ void main(){
   });
 
   group('naver geocoding test group: ', () {
-    test('request test', 
+    test('should return geocoding response when the call is successful', 
     () async {
       ///arrange
       when(mockHttpClient.get(any))
-      .thenAnswer((_) async => Response('OK', 200));
+      .thenAnswer((_) async => Response('{"status":"OK"}', 200));
       ///act
       var response = await GeocodingRequest(
         httpClient: mockHttpClient
@@ -26,6 +26,15 @@ void main(){
       ///assert
       verify(mockHttpClient.get(any));
       expect('OK', equals(response.status));
+    });
+
+    test('should return correct geocoding response when the call is unsuccessful', () {
+      ///arrange
+      
+      ///act
+      
+      ///assert
+      
     });
   });
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_naver_maps_api/models/location.dart';
 import 'package:flutter_naver_maps_api/requests/naver_request.dart';
 import 'package:flutter_naver_maps_api/responses/geocoding_response.dart';
@@ -21,9 +23,6 @@ class GeocodingRequest extends NaverRequest{
   });
 
   @override
-  Future<GeocodingResponse> call() async {
-    return null;
-  }
-
-  
+  Future<GeocodingResponse> call() async =>
+    GeocodingResponse.fromJson(json.decode((await httpClient.get('')).body));
 }
