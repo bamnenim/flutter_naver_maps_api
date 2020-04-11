@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:flutter_naver_maps_api/flutter_naver_maps_api.dart';
 
 void main() {
