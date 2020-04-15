@@ -1,3 +1,4 @@
+import 'package:flutter_naver_maps_api/models/result_code.dart';
 import 'package:flutter_naver_maps_api/requests/directions5_request.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -25,7 +26,7 @@ void main() {
         ).call();
         ///assert
         verify(mockHttpClient.get(any));
-        expect('OK', equals(response.status));
+        expect(ResultCode(0), equals(response.code));
       });
 
       test('should return correct response obj when the call is unsuccessful', () {

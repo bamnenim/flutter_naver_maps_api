@@ -8,8 +8,20 @@ class Directions5Request extends NaverRequest{
   
   Directions5Request({
     this.httpClient,
-  });
+  }) : super(httpClient);
 
   Future<NaverResponse> call() async => 
     Directions5Response.fromJson((await httpClient.get('url')).body);
+
+  @override
+  Map<String, dynamic> buildQueryParmas() {
+    // TODO: implement buildQueryParmas
+    return null;
+  }
+
+  @override
+  String buildUrl() {
+    // TODO: implement buildUrl
+    return null;
+  }
 }

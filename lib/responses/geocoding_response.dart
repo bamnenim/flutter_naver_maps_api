@@ -1,13 +1,14 @@
+import 'package:flutter_naver_maps_api/models/result_code.dart';
 import 'package:flutter_naver_maps_api/responses/naver_response.dart';
 
 class GeocodingResponse extends NaverResponse{
   
-  final String status;
+  final ResultCode code;
 
   GeocodingResponse({
-    this.status
-  }) : super(status: status);
+    this.code
+  }) : super(code: code);
 
   factory GeocodingResponse.fromJson(Map json) =>
-    GeocodingResponse(status:"OK");
+    GeocodingResponse(code: ResultCode(0));
 }

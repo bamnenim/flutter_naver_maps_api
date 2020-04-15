@@ -1,6 +1,9 @@
+import 'package:flutter_naver_maps_api/models/result_code.dart';
 import 'package:meta/meta.dart';
 
 abstract class NaverResponse{
-  final String status;
-  NaverResponse({@required this.status});
+  final int code;
+  NaverResponse({
+    @required this.code
+  });
 }
