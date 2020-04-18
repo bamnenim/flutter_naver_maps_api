@@ -6,9 +6,9 @@ abstract class NaverRequest{
   String _clientId;
   String _clientSecret;
 
-  NaverRequest(this.httpClient){
-    httpClient = Client();
-  }
+  NaverRequest({
+    this.httpClient
+  });
 
   Future<NaverResponse> call();
   String buildUrl();

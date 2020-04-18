@@ -3,7 +3,6 @@ import 'package:flutter_naver_maps_api/models/coordiate.dart';
 import 'package:flutter_naver_maps_api/models/guide_unit_for_ent.dart';
 import 'package:flutter_naver_maps_api/models/location.dart';
 import 'package:flutter_naver_maps_api/models/response_position_format.dart';
-import 'package:flutter_naver_maps_api/models/result_code.dart';
 import 'package:flutter_naver_maps_api/models/route.dart';
 import 'package:flutter_naver_maps_api/models/route_unit_ent.dart';
 import 'package:flutter_naver_maps_api/models/section_unit.dart';

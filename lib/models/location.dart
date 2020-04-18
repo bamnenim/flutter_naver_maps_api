@@ -22,6 +22,8 @@ class Location extends Model with EquatableMixin{
 
   @override
   String toString() => '[$lat, $lng]';
+
+  String toNormalString() => '$lat,$lng';
   
   @override
   List<Object> get props => [lat, lng];
