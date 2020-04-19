@@ -22,7 +22,7 @@ class Directions5Response extends NaverResponse with EquatableMixin{
       code: map['code'],
       message: map['message'],
       currentDateTime: map['currentDateTime'],
-      route: Route.fromJson(map['route']),
+      route: map['route'] != null ? Route.fromJson(map['route']) : null,
     );
 
   @override

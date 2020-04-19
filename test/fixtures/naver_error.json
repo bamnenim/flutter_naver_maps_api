@@ -1,0 +1,7 @@
+{
+    "error": {
+        "errorCode": "200",
+        "message": "Authentication Failed",
+        "details": "Invalid authentication information."
+    }
+}

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_naver_maps_api/core/exception/naver_api_exception.dart';
 import 'package:flutter_naver_maps_api/models/location.dart';
 import 'package:flutter_naver_maps_api/models/multiple_request_position_format.dart';
 import 'package:flutter_naver_maps_api/models/multiple_request_position_format_list.dart';
@@ -17,7 +18,7 @@ void main() {
 
   MockHttpClient mockHttpClient;
   var tDirections5Resposne = fixture('directions5.json');
-  var tDirections5ResponseFailed = fixture('directions5.json');
+  var tDirections5ResponseFailed = fixture('directions5_fail.json');
   var tUtf8Header = {
     "content-type": "application/json; charset=utf-8",
   };
@@ -42,6 +43,8 @@ void main() {
         ));
         ///act
         var response = await Directions5Request(
+          start: RequestPositionFormat(location: null),
+          goal: MultipleRequestPositionFormat([RequestPositionFormat(location: null)]),
           httpClient: mockHttpClient
         ).call();
         var tResponse = Directions5Response.fromJson(json.decode(tDirections5Resposne));
@@ -61,12 +64,38 @@ void main() {
         ));
         ///act
         var response = await Directions5Request(
+          start: RequestPositionFormat(location: null),
+          goal: MultipleRequestPositionFormat([RequestPositionFormat(location: null)]),
           httpClient: mockHttpClient
         ).call();
         var tResponse = Directions5Response.fromJson(json.decode(tDirections5ResponseFailed));
         ///assert
         verify(mockHttpClient.get(any, headers: mockNaverHeader));
         expect(tResponse, equals(response));
+      });
+
+      test('should return Conection Error Exception when the call is abnormal', 
+      () async {
+        ///arrange
+        when(mockHttpClient.get(any, headers: mockNaverHeader))
+        .thenAnswer((_) async => Response(
+          fixture('naver_error.json'),
+          400,
+          headers: tUtf8Header
+        ));
+        var tResponse = Directions5Request(
+          start: null, 
+          goal: null,
+          httpClient: mockHttpClient
+        );
+        try {
+          ///action
+          await tResponse.call();
+        } catch(e){
+          ///assert
+          expect(e.runtimeType, NaverAPIException);
+        }
+        verify(mockHttpClient.get(any, headers: mockNaverHeader));
       });
     });
 

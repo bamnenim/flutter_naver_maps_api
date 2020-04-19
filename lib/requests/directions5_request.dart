@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_naver_maps_api/core/exception/naver_api_exception.dart';
 import 'package:flutter_naver_maps_api/models/multiple_request_position_format.dart';
 import 'package:flutter_naver_maps_api/models/multiple_request_position_format_list.dart';
 import 'package:flutter_naver_maps_api/models/request_position_format.dart';
@@ -34,8 +35,12 @@ class Directions5Request extends NaverRequest{
     this.httpClient,
   }) : super(httpClient: httpClient);
 
-  Future<NaverResponse> call() async => 
-    Directions5Response.fromJson(json.decode((await getHttpResponse('')).body));
+  Future<NaverResponse> call() async {
+    var response = await getHttpResponse(buildUrl());
+    if(response.statusCode != 200)
+      throw NaverAPIException.fromResponse(response);
+    return Directions5Response.fromJson(json.decode(response.body));
+  }
 
   @override
   Map<String, dynamic> buildQueryParmas() {

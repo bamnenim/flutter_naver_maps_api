@@ -37,5 +37,4 @@ class RequestPositionFormat extends Model with EquatableMixin {
       requestPositionFormatString += ',name=$name';
     return requestPositionFormatString;
   }
-  
 }
