@@ -21,7 +21,7 @@ class GeocodingRequest extends NaverRequest{
     this.page, 
     this.count,
     this.httpClient
-  }) : super(httpClient);
+  }) : super(httpClient: httpClient);
 
   @override
   Future<GeocodingResponse> call() async =>
