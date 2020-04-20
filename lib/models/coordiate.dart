@@ -27,4 +27,9 @@ class Coordinate extends Model with EquatableMixin{
   }
 
   List<double> toList() => [lat, lng];
+
+  @override
+  String toString() {
+    return '$lat,$lng';
+  }
 }

@@ -29,8 +29,9 @@ class GeocodingRequest extends NaverRequest{
 
   @override
   String buildUrl() {
-    // TODO: implement buildUrl
-    return null;
+    var baseUrl = 'https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?';
+    var queryString = buildQueryParamsToUriString(buildQueryParmas());
+    return '$baseUrl$queryString';
   }
 
   @override
@@ -38,7 +39,7 @@ class GeocodingRequest extends NaverRequest{
     var params = Map<String, dynamic>();
     params["query"] = query;
     if(coordinate != null)
-      params["coordinate"] = coordinate;
+      params["coordinate"] = coordinate.toString();
     if(filter != null)
       params["filter"] = filter;
     if(page != null)
