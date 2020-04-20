@@ -1,14 +1,15 @@
 import 'dart:convert';
+import 'package:flutter_naver_maps_api/core/exception/direction_too_many_waypoints_exception.dart';
 import 'package:flutter_naver_maps_api/core/exception/naver_api_exception.dart';
 import 'package:flutter_naver_maps_api/models/multiple_request_position_format.dart';
 import 'package:flutter_naver_maps_api/models/multiple_request_position_format_list.dart';
 import 'package:flutter_naver_maps_api/models/request_position_format.dart';
+import 'package:flutter_naver_maps_api/responses/directions_response.dart';
 import 'package:meta/meta.dart';
 import 'package:flutter_naver_maps_api/models/enums/fueltype_code.dart';
 import 'package:flutter_naver_maps_api/models/enums/language_code.dart';
 import 'package:flutter_naver_maps_api/models/enums/optiontype_code.dart';
 import 'package:flutter_naver_maps_api/requests/naver_request.dart';
-import 'package:flutter_naver_maps_api/responses/directions5_response.dart';
 import 'package:flutter_naver_maps_api/responses/naver_response.dart';
 import 'package:http/http.dart';
 
@@ -34,8 +35,8 @@ class DirectionsRequest extends NaverRequest{
     this.lang, 
     this.httpClient,
   }) : super(httpClient: httpClient){
-    if(waypoints != null && waypoints.formatList.length > 5)
-      throw NaverAPIException;
+    if(waypoints != null && waypoints.formatList.length > 15)
+      throw TooManyWaypointsException();
   }
 
   Future<NaverResponse> call() async {
@@ -67,8 +68,14 @@ class DirectionsRequest extends NaverRequest{
 
   @override
   String buildUrl() {
-    var baseUrl = 'https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?';
+    var baseUrl = getDirectionBaseUrl();
     var queryString = buildQueryParamsToUriString(buildQueryParmas());
     return '$baseUrl$queryString';
+  }
+
+  String getDirectionBaseUrl(){
+    //if waypoints length is larger than 15 then should use direction15 api
+    var len = (waypoints != null && waypoints.formatList.length > 5) ? '-15' : '';
+    return 'https://naveropenapi.apigw.ntruss.com/map-direction$len/v1/driving?';
   }
 }

@@ -7,7 +7,7 @@ import 'package:flutter_naver_maps_api/models/route.dart';
 import 'package:flutter_naver_maps_api/models/route_unit_ent.dart';
 import 'package:flutter_naver_maps_api/models/section_unit.dart';
 import 'package:flutter_naver_maps_api/models/summary.dart';
-import 'package:flutter_naver_maps_api/responses/directions5_response.dart';
+import 'package:flutter_naver_maps_api/responses/directions_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import '../fixtures/fixture_reader.dart';
 

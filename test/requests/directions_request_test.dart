@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_naver_maps_api/core/exception/direction_too_many_waypoints_exception.dart';
 import 'package:flutter_naver_maps_api/core/exception/naver_api_exception.dart';
 import 'package:flutter_naver_maps_api/models/enums/optiontype_code.dart';
 import 'package:flutter_naver_maps_api/models/location.dart';
@@ -6,7 +7,7 @@ import 'package:flutter_naver_maps_api/models/multiple_request_position_format.d
 import 'package:flutter_naver_maps_api/models/multiple_request_position_format_list.dart';
 import 'package:flutter_naver_maps_api/models/request_position_format.dart';
 import 'package:flutter_naver_maps_api/requests/directions_request.dart';
-import 'package:flutter_naver_maps_api/responses/directions5_response.dart';
+import 'package:flutter_naver_maps_api/responses/directions_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart';
@@ -124,7 +125,7 @@ void main() {
       });
     });
 
-    test('build url test', () {
+    test('build url test direction5', () {
       ///arrange
       var baseUrl = 'https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?';
       var startQuery = 'start=127.12345,37.12345,sessionid=11223344,name=출발지이름';
@@ -152,6 +153,58 @@ void main() {
         ).buildUrl();
       ///assert
       expect(urlFromRequest, equals(tUrl));
+    });
+
+    group('get DirectionBaseUrl tests:', () {
+      test('should return map-direction url when waypoints is less than 5', () {
+        ///arrange
+        var baseUrl = 'https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?';
+        var tWaypoints = MultipleRequestPositionFormatList([]);
+        for(var i=0; i<5;i++){
+          tWaypoints.formatList.add(MultipleRequestPositionFormat([]));
+        }
+        var baseUrlFromRequest = DirectionsRequest(
+            start: null,
+            goal: null,
+            waypoints: tWaypoints,
+          ).getDirectionBaseUrl();
+        ///assert
+        expect(baseUrlFromRequest, equals(baseUrl));
+      });
+
+      test('should return map-direction url 5 < when waypoints < 15', () {
+        ///arrange
+        var baseUrl = 'https://naveropenapi.apigw.ntruss.com/map-direction-15/v1/driving?';
+        var tWaypoints = MultipleRequestPositionFormatList([]);
+        for(var i=0; i<15;i++){
+          tWaypoints.formatList.add(MultipleRequestPositionFormat([]));
+        }
+        var baseUrlFromRequest = DirectionsRequest(
+            start: null,
+            goal: null,
+            waypoints: tWaypoints,
+          ).getDirectionBaseUrl();
+        ///assert
+        expect(baseUrlFromRequest, equals(baseUrl));
+      });
+
+      test('should throw naver api exception when waypoints is > 15', () {
+        ///arrange
+        var tWaypoints = MultipleRequestPositionFormatList([]);
+        for(var i=0; i<16;i++){
+          tWaypoints.formatList.add(MultipleRequestPositionFormat([]));
+        }
+        try {
+          DirectionsRequest(
+            start:null,
+            goal: null,
+            waypoints: tWaypoints,
+          ).getDirectionBaseUrl();
+        } catch(e){
+          ///assert
+          expect(e.runtimeType, equals(TooManyWaypointsException));
+        }
+      });
     });
   });
 

@@ -4,9 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:mockito/mockito.dart';
 
-import 'directions5_request_test.dart';
-
-class MocHttpClient extends Mock implements Client{}
+class MockHttpClient extends Mock implements Client{}
 
 void main(){
   
