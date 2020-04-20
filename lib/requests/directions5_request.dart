@@ -16,7 +16,7 @@ class Directions5Request extends NaverRequest{
   final RequestPositionFormat start;
   final MultipleRequestPositionFormat goal;
   final MultipleRequestPositionFormatList waypoints;
-  final OptionTypeCode option;
+  final List<OptionTypeCode> option;
   final int cartype;
   final FuelTypeCode fueltype;
   final double mileage;
@@ -44,13 +44,28 @@ class Directions5Request extends NaverRequest{
 
   @override
   Map<String, dynamic> buildQueryParmas() {
-    // TODO: implement buildQueryParmas
-    return null;
+    var map = Map<String, dynamic>();
+    map['start'] = start.toString();
+    map['goal'] = goal.toString();
+    if(waypoints != null)
+      map['waypoints'] = waypoints.toString();
+    if(option != null)
+      map['option'] = option.map((opt)=>opt.toString().split('.').last).toList().join(',');
+    if(cartype != null)
+      map['cartype'] = cartype;
+    if(fueltype != null)
+      map['fueltype'] = fueltype;
+    if(mileage != null)
+      map['mileage'] = mileage;
+    if(lang != null)
+      map['lang'] = lang;
+    return map;
   }
 
   @override
   String buildUrl() {
-    // TODO: implement buildUrl
-    return null;
+    var baseUrl = 'https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?';
+    var queryString = buildQueryParamsToUriString(buildQueryParmas());
+    return '$baseUrl$queryString';
   }
 }

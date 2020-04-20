@@ -14,7 +14,7 @@ import '../fixtures/fixture_reader.dart';
 void main() {
 
   var direction5SuccessResult = json.decode(fixture('directions5.json'));
-  var direction5FailedResult = json.decode(fixture('directions5.json'));
+  var direction5FailedResult = json.decode(fixture('directions5_fail.json'));
 
   group('directions5 response test group: ', () {
     group('from json test group: ', () {
@@ -41,10 +41,10 @@ void main() {
         ///arrange
         var tResponseFromJson = Directions5Response.fromJson(direction5FailedResult);
         var tResponseFromObject = Directions5Response(
-          code: 0,
-          message: "",
-          currentDateTime: "",
-          route: Route(trafast: null, tracomfort: null, traoptimal: null, traavoidtoll: null, traavoidcaronly: null)
+          code: 1,
+          message: "출발지와 도착지가 동일합니다. 확인 후 다시 지정해주세요.",
+          currentDateTime: null,
+          route: null
         );
         ///assert
         expect(tResponseFromJson, equals(tResponseFromObject));

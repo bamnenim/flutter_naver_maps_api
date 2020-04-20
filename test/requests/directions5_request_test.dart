@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_naver_maps_api/core/exception/naver_api_exception.dart';
+import 'package:flutter_naver_maps_api/models/enums/optiontype_code.dart';
 import 'package:flutter_naver_maps_api/models/location.dart';
 import 'package:flutter_naver_maps_api/models/multiple_request_position_format.dart';
 import 'package:flutter_naver_maps_api/models/multiple_request_position_format_list.dart';
@@ -43,8 +44,20 @@ void main() {
         ));
         ///act
         var response = await Directions5Request(
-          start: RequestPositionFormat(location: null),
-          goal: MultipleRequestPositionFormat([RequestPositionFormat(location: null)]),
+          start: RequestPositionFormat(
+            location: Location(
+              lat: 0,
+              lng: 0
+            )
+          ),
+          goal: MultipleRequestPositionFormat([
+            RequestPositionFormat(location: 
+              Location(
+                lat: 0,
+                lng: 0 
+              )
+            )
+          ]),
           httpClient: mockHttpClient
         ).call();
         var tResponse = Directions5Response.fromJson(json.decode(tDirections5Resposne));
@@ -64,8 +77,20 @@ void main() {
         ));
         ///act
         var response = await Directions5Request(
-          start: RequestPositionFormat(location: null),
-          goal: MultipleRequestPositionFormat([RequestPositionFormat(location: null)]),
+          start: RequestPositionFormat(
+            location: Location(
+              lat: 0,
+              lng: 0
+            )
+          ),
+          goal: MultipleRequestPositionFormat([
+            RequestPositionFormat(
+              location: Location(
+                lat: 0,
+                lng: 0
+              )
+            )
+          ]),
           httpClient: mockHttpClient
         ).call();
         var tResponse = Directions5Response.fromJson(json.decode(tDirections5ResponseFailed));
@@ -101,11 +126,32 @@ void main() {
 
     test('build url test', () {
       ///arrange
-      
-      ///act
-      
+      var baseUrl = 'https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?';
+      var startQuery = 'start=127.12345,37.12345,sessionid=11223344,name=출발지이름';
+      var goalQuery = 'goal=127.12345,37.12345,name=장소이름1:128.12345,38.12345,sessionid=1122334';
+      var optionQuery = 'option=trafast';
+      var tUrl = '$baseUrl$startQuery&$goalQuery&$optionQuery';
+      var urlFromRequest = Directions5Request(
+          start: RequestPositionFormat(
+            location: Location(lat: 127.12345, lng: 37.12345),
+            sessionId: '11223344',
+            name: '출발지이름'
+          ),
+          goal: MultipleRequestPositionFormat([
+            RequestPositionFormat(
+              location: Location(lat: 127.12345, lng: 37.12345),
+              name: '장소이름1'
+            ),
+            RequestPositionFormat(
+              location: Location(lat: 128.12345, lng: 38.12345),
+              sessionId: '1122334'
+            ),
+          ]),
+          option: [OptionTypeCode.trafast],
+          httpClient: mockHttpClient
+        ).buildUrl();
       ///assert
-      
+      expect(urlFromRequest, equals(tUrl));
     });
   });
 
