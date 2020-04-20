@@ -12,7 +12,7 @@ import 'package:flutter_naver_maps_api/responses/directions5_response.dart';
 import 'package:flutter_naver_maps_api/responses/naver_response.dart';
 import 'package:http/http.dart';
 
-class Directions5Request extends NaverRequest{
+class DirectionsRequest extends NaverRequest{
   final RequestPositionFormat start;
   final MultipleRequestPositionFormat goal;
   final MultipleRequestPositionFormatList waypoints;
@@ -23,7 +23,7 @@ class Directions5Request extends NaverRequest{
   final LanguageCode lang;
   Client httpClient;
   
-  Directions5Request({
+  DirectionsRequest({
     @required this.start, 
     @required this.goal, 
     this.waypoints, 
@@ -33,13 +33,16 @@ class Directions5Request extends NaverRequest{
     this.mileage, 
     this.lang, 
     this.httpClient,
-  }) : super(httpClient: httpClient);
+  }) : super(httpClient: httpClient){
+    if(waypoints != null && waypoints.formatList.length > 5)
+      throw NaverAPIException;
+  }
 
   Future<NaverResponse> call() async {
     var response = await getHttpResponse(buildUrl());
     if(response.statusCode != 200)
       throw NaverAPIException.fromResponse(response);
-    return Directions5Response.fromJson(json.decode(response.body));
+    return DirectionsResponse.fromJson(json.decode(response.body));
   }
 
   @override

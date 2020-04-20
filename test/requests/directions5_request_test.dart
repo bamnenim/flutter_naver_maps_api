@@ -5,7 +5,7 @@ import 'package:flutter_naver_maps_api/models/location.dart';
 import 'package:flutter_naver_maps_api/models/multiple_request_position_format.dart';
 import 'package:flutter_naver_maps_api/models/multiple_request_position_format_list.dart';
 import 'package:flutter_naver_maps_api/models/request_position_format.dart';
-import 'package:flutter_naver_maps_api/requests/directions5_request.dart';
+import 'package:flutter_naver_maps_api/requests/directions_request.dart';
 import 'package:flutter_naver_maps_api/responses/directions5_response.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -43,7 +43,7 @@ void main() {
           headers: tUtf8Header
         ));
         ///act
-        var response = await Directions5Request(
+        var response = await DirectionsRequest(
           start: RequestPositionFormat(
             location: Location(
               lat: 0,
@@ -60,7 +60,7 @@ void main() {
           ]),
           httpClient: mockHttpClient
         ).call();
-        var tResponse = Directions5Response.fromJson(json.decode(tDirections5Resposne));
+        var tResponse = DirectionsResponse.fromJson(json.decode(tDirections5Resposne));
         ///assert
         verify(mockHttpClient.get(any, headers: mockNaverHeader));
         expect(tResponse, equals(response));
@@ -76,7 +76,7 @@ void main() {
           headers: tUtf8Header
         ));
         ///act
-        var response = await Directions5Request(
+        var response = await DirectionsRequest(
           start: RequestPositionFormat(
             location: Location(
               lat: 0,
@@ -93,7 +93,7 @@ void main() {
           ]),
           httpClient: mockHttpClient
         ).call();
-        var tResponse = Directions5Response.fromJson(json.decode(tDirections5ResponseFailed));
+        var tResponse = DirectionsResponse.fromJson(json.decode(tDirections5ResponseFailed));
         ///assert
         verify(mockHttpClient.get(any, headers: mockNaverHeader));
         expect(tResponse, equals(response));
@@ -108,7 +108,7 @@ void main() {
           400,
           headers: tUtf8Header
         ));
-        var tResponse = Directions5Request(
+        var tResponse = DirectionsRequest(
           start: null, 
           goal: null,
           httpClient: mockHttpClient
@@ -131,7 +131,7 @@ void main() {
       var goalQuery = 'goal=127.12345,37.12345,name=장소이름1:128.12345,38.12345,sessionid=1122334';
       var optionQuery = 'option=trafast';
       var tUrl = '$baseUrl$startQuery&$goalQuery&$optionQuery';
-      var urlFromRequest = Directions5Request(
+      var urlFromRequest = DirectionsRequest(
           start: RequestPositionFormat(
             location: Location(lat: 127.12345, lng: 37.12345),
             sessionId: '11223344',

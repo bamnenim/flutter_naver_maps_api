@@ -20,8 +20,8 @@ void main() {
     group('from json test group: ', () {
       test('should return correct response obj when the json is given with successful response', () {
         ///arrange
-        var tResponseFromJson = Directions5Response.fromJson(direction5SuccessResult);
-        var tResponseFromObject = Directions5Response(
+        var tResponseFromJson = DirectionsResponse.fromJson(direction5SuccessResult);
+        var tResponseFromObject = DirectionsResponse(
           code: 0,
           message: "길찾기를 성공하였습니다.",
           currentDateTime: "2018-12-21T14:45:34",
@@ -39,8 +39,8 @@ void main() {
 
       test('should return correct response obj when the json is given with unsucessful response', () {
         ///arrange
-        var tResponseFromJson = Directions5Response.fromJson(direction5FailedResult);
-        var tResponseFromObject = Directions5Response(
+        var tResponseFromJson = DirectionsResponse.fromJson(direction5FailedResult);
+        var tResponseFromObject = DirectionsResponse(
           code: 1,
           message: "출발지와 도착지가 동일합니다. 확인 후 다시 지정해주세요.",
           currentDateTime: null,
